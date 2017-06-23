@@ -4,6 +4,23 @@ import { Link } from 'react-router-dom';
 import styles from './Home.css';
 
 export default class Home extends Component {
+  componentDidMount() {
+    navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: {
+        frameRate: { ideal: 60, min: 30 },
+        width: 1280, height: 720
+      }
+    }).then((mediaStream) => {
+      let video = this.refs.video;
+      video.srcObject = mediaStream;
+      video.onloadedmetadata = function(e) {
+        video.play();
+      };
+    })
+      .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.;
+  }
+
   render() {
     let {
       domain,
@@ -13,18 +30,9 @@ export default class Home extends Component {
       error,
       lookup
     } = this.props;
-
     return (
-      <div className="container" data-tid="container">
-        <div className="input-group">
-          <span className="input-group-addon">dig</span>
-          <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" />
-          <span className="input-group-addon" id="sizing-addon1">@</span>
-          <input type="text" className="form-control" placeholder="DNS Server" />
-          <span className="input-group-btn">
-            <button className="btn btn-default" type="button">Go!</button>
-          </span>
-        </div>
+      <div className="mirror-wrapper" data-tid="container">
+        <video className="mirror" ref='video' />
       </div>
     );
   }

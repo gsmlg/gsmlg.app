@@ -3,10 +3,16 @@
   height: 100vh;
 }
 
-.container {
+.mirror-wrapper {
+  width: 100%;
   height: 100vh;
   display:flex;
   flex: 1;
   justify-content: space-around;
   align-items: center;
+}
+
+.mirror {
+  width: 100%;
+  height: 100hv;
 }
